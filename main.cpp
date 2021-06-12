@@ -1,7 +1,3 @@
-/*王新昊
- * 1900011102
- * rotatebmp
- */
 #include <iostream>
 #include <fstream>
 #include <iomanip>
