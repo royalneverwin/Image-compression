@@ -38,27 +38,27 @@ typedef struct tagBITMAPINFOHEADER{//BMP位图信息头
 } BITMAPINFOHEADER; //该结构占据40个字节
 
 
-typedef struct tagRGB24 {//32字节
-    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
-    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
-    BYTE rgbRed; // 红色的亮度(值范围为0-255)
-} RGB24;
-
-
-typedef struct tagRGB32 {//32字节
-    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
-    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
-    BYTE rgbRed; // 红色的亮度(值范围为0-255)
-    BYTE rgbReserved;// 保留，必须为0，即为Alpha
-} RGB32;
+//typedef struct tagRGB24 {//32字节
+//    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
+//    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
+//    BYTE rgbRed; // 红色的亮度(值范围为0-255)
+//} RGB24;
+//
+//
+//typedef struct tagRGB32 {//32字节
+//    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
+//    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
+//    BYTE rgbRed; // 红色的亮度(值范围为0-255)
+//    BYTE rgbReserved;// 保留，必须为0，即为Alpha
+//} RGB32;
 
 
 
 BITMAPFILEHEADER bmpFileHeader;
 BITMAPINFOHEADER bmpInfoHeader;
-RGB24 bmp24[MAX][MAX];
-RGB32 bmp32[MAX][MAX];
-RGB24 bmpother[MAX][MAX];
+BYTE blue[MAX][MAX];
+BYTE red[MAX][MAX];
+BYTE green[MAX][MAX];
 
 
 int main(int argc, char *argv[]){//命令行输入有两个文件名, 将第一个文件的照片压缩放到第二个文件中
