@@ -1,112 +1,174 @@
 #include <iostream>
 #include <fstream>
-#include <iomanip>
+#include "bmp.h"
+#include "jpeg.h"
 using namespace std;
 #pragma pack(1)
 
-typedef unsigned char BYTE; //8位 - 1Byte
-typedef unsigned short WORD; //16位 -2Byte
-typedef unsigned int DWORD; //32位 -4Byte
-typedef unsigned int LONG; //32位 -4Byte
 
-
-const int MAX = 3000;
-
-
-typedef struct tagBITMAPFILEHEADER//BMP文件头
-{
-    WORD bfType; // 位图文件的类型，必须为“BM”
-    DWORD bfSize; // 位图文件的大小，以字节为单位
-    WORD bfReserved1; // 位图文件保留字，必须为0
-    WORD bfReserved2; // 位图文件保留字，必须为0
-    DWORD bfOffBits; // 位图数据的起始位置，以相对于位图文件头的偏移量表示，以字节为单位
-} BITMAPFILEHEADER;//该结构占据14个字节
-
-
-typedef struct tagBITMAPINFOHEADER{//BMP位图信息头
-    DWORD biSize; // 本结构所占用字节数
-    LONG biWidth; // 位图的宽度，以像素为单位
-    LONG biHeight; // 位图的高度，以像素为单位
-    WORD biPlanes; // 目标设备的平面数不清，必须为1
-    WORD biBitCount;// 每个像素所需的位数，必须是1(双色), 4(16色)，8(256色)或24(真彩色)之一
-    DWORD biCompression; // 位图压缩类型，必须是 0(不压缩),1(BI_RLE8压缩类型)或2(BI_RLE4压缩类型)之一
-    DWORD biSizeImage; // 位图的大小，以字节为单位
-    LONG biXPelsPerMeter; // 位图水平分辨率，每米像素数
-    LONG biYPelsPerMeter; // 位图垂直分辨率，每米像素数
-    DWORD biClrUsed;// 位图实际使用的颜色表中的颜色数
-    DWORD biClrImportant;// 位图显示过程中重要的颜色数
-} BITMAPINFOHEADER; //该结构占据40个字节
-
-
-//typedef struct tagRGB24 {//32字节
-//    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
-//    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
-//    BYTE rgbRed; // 红色的亮度(值范围为0-255)
-//} RGB24;
-//
-//
-//typedef struct tagRGB32 {//32字节
-//    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
-//    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
-//    BYTE rgbRed; // 红色的亮度(值范围为0-255)
-//    BYTE rgbReserved;// 保留，必须为0，即为Alpha
-//} RGB32;
+/*****convert from RGB to YUV*****/
+float rgb2y (float r, float g, float b){
+    return 0.299f * r + 0.587f * g + 0.114f * b;
+}
+float rgb2u(float r, float g, float b){
+    return -0.16874f * r - 0.33126f * g + 0.5f * b;
+}
+float rgb2v(float r, float g, float b){
+    return 0.5f * r -0.41869f * g - 0.08131f * b;
+}
+/*****convert from RGB to YUV*****/
 
 
 
-BITMAPFILEHEADER bmpFileHeader;
-BITMAPINFOHEADER bmpInfoHeader;
-BYTE blue[MAX][MAX];
-BYTE red[MAX][MAX];
-BYTE green[MAX][MAX];
+
+/*****DCT*****/
+void DCT(float matrix[][8]){ //G = TAT'
+    float tmp[8][8];
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            float sum = 0;
+            for(int k = 0; k < 8; k++){
+                sum += matrix[i][k] * TT[k][j];
+            }
+            tmp[i][j] = sum;
+        }
+    }
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            float sum = 0;
+            for(int k = 0; k < 8; k++){
+                sum += T[i][k] * tmp[k][j];
+            }
+            matrix[i][j] = sum;
+        }
+    }
+}
+/*****DCT*****/
+
+/*****jpeg compression in chunks 8x8*****/
+void JPEG_DIVIDE(int r, int c, int width, int height){
+    float divideY[8][8];
+    float divideU[8][8];
+    float divideV[8][8];
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            if(r + i < width && c + j < height) {
+                divideY[i][j] = Y[r + i][c + j];
+                divideU[i][j] = U[r + i][c + j];
+                divideV[i][j] = V[r + i][c + j];
+            }
+            else{
+                divideY[i][j] = 0;
+                divideU[i][j] = 0;
+                divideV[i][j] = 0;
+            }
+        }
+    }
+    //DCT
+    DCT(divideY);
+    DCT(divideU);
+    DCT(divideV);
+    //quantization
+
+}
+/*****jpeg compression in chunks 8x8*****/
 
 
-int main(int argc, char *argv[]){//命令行输入有两个文件名, 将第一个文件的照片压缩放到第二个文件中
+
+/*****jpeg*****/
+void MyJPEG(int width, int height){
+    int r = 0;
+    int c = 0;
+    //Color space conversion
+    /***ps: I escaped Decline Sampling**/
+    for(r = 0; r < width; r++){
+        for(c = 0; c < height; c++){
+            Y[r][c] = rgb2y(float(red[r][c]), float(green[r][c]), float(blue[r][c])) - 128; //make its value range fall in [-128,127]
+            U[r][c] = rgb2u(float(red[r][c]), float(green[r][c]), float(blue[r][c]));
+            V[r][c] = rgb2v(float(red[r][c]), float(green[r][c]), float(blue[r][c]));
+        }
+    }
+    //Block processing
+    for(r = 0; r < width; r += 8){
+        for(c = 0; c < height; c += 8){
+            JPEG_DIVIDE(r, c, width, height);
+        }
+    }
+}
+/*****jpeg*****/
+
+
+
+
+int main(int argc, char *argv[]){//2 file names in the command line input, compress the photos of the first file into the second file
     ifstream fin(argv[1],ios::in|ios::binary);
     ofstream fout(argv[2], ios::out | ios::binary);
     int count = 0;
-    int ifInterval = 0;//在两个Header和数据之间可能还有一些无关数据, 要都记录并且平移
+    int ifInterval = 0;//there may be some irrelevant data between the 2 Headers and the data, which must be recorded and translated
     char *interval;
     int intervalCnt;
+    int makeUpCnt;
     int width;
     int height;
-    if(!fin.is_open()){//若打开文件错误, 则输出错误
+    if(!fin.is_open()){//if there is an error in opening the file, an error will be output
         cerr << "Error in opening files" << endl;
         exit(1);
     }
-    if(width > MAX || height > MAX){ //这里先设MAX = 3000，可以变，我主要不知道具体图片可以有多大
+    if(width > MAX || height > MAX){ //set MAX = 3000 first, it can be changed, I don’t know how big the specific picture can be
         cerr << "too big" << endl;
         exit(2);
     }
-    fin.read((char *)&bmpFileHeader, sizeof(bmpFileHeader));//read的首项必须是char *
+    fin.read((char *)&bmpFileHeader, sizeof(bmpFileHeader));//the first item of read must be char *
     fin.read((char *)&bmpInfoHeader, sizeof(bmpInfoHeader));
     count = count + sizeof(bmpFileHeader) + sizeof(bmpInfoHeader);
     width = bmpInfoHeader.biWidth;
     height = bmpInfoHeader.biHeight;
-    intervalCnt = bmpFileHeader.bfOffBits - count; //按理说中间应该没东西了，但是以防万一检查下
+    intervalCnt = bmpFileHeader.bfOffBits - count; //normally there is nothing in the middle, but just in case check it
     if(intervalCnt != 0)
         ifInterval = 1;
     if(ifInterval){
         interval = new char[intervalCnt];
         fin.read(interval, intervalCnt);
     }
-    /*我们只处理位图数据，因此前面的东西原封不动放进去*/
+    //we only deal with bitmap data, so the previous stuff is left intact
     fout.write((char *)&bmpFileHeader, sizeof(bmpFileHeader));
     fout.write((char *)&bmpInfoHeader, sizeof(bmpInfoHeader));
-    if(ifInterval){ //位图数据和头之间还有信息
+    if(ifInterval){ //if there is still information between the bitmap data and the header
         fout.write(interval, intervalCnt);
         delete []interval;
     }
-    /*处理位图数据*/
-    if(bmpInfoHeader.biBitCount == 24){//如果是24位，颜色顺序是BGR
+    //read bitmap data
+    if(bmpInfoHeader.biBitCount == 24){//if it is 24 bits, the color order is BGR
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                fin.read((char *)&blue[i][j], sizeof(blue[i][j]));
+                fin.read((char *)&green[i][j], sizeof(green[i][j]));
+                fin.read((char *)&red[i][j], sizeof(red[i][j]));
+            }
+            //each line of bmp has an alignment principle, the number of bytes in each line must be a multiple of 4, the rest is replaced by 0.
+            //makeup is the number of bytes
+            makeUpCnt = (width * 3 + 3) / 4 * 4 - width * 3;
+            BYTE tmp;
+            for(int j = 0; j < makeUpCnt; j++) //just throw it away after reading it
+                fin.read((char *)&tmp, sizeof(tmp));
+        }
+    }
+    else if(bmpInfoHeader.biBitCount == 32){//if it is 32 bits, the color order is BGRA (Alpha)
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                fin.read((char *)&blue[i][j], sizeof(blue[i][j]));
+                fin.read((char *)&green[i][j], sizeof(green[i][j]));
+                fin.read((char *)&red[i][j], sizeof(red[i][j]));
+            }
+            //no need for makeUpCnt, 4 bytes of 1 pixel must be a multiple of 4, and 0 will not be added
+        }
+    }
+    else{ //24 and 32 bits are true colors, just read the color directly, the other formats will have a palette that will index the corresponding colors, which will be more complicated
 
     }
-    else if(bmpInfoHeader.biBitCount == 32){//如果是32位，颜色顺序是BGRA(Alpha)
+    //jpeg compressor
+    MyJPEG(width, height);
 
-    }
-    else{ //24和32位是真彩色，直接读颜色就行，其余格式会有调色板将索引对应颜色，会比较复杂
-
-    }
     fin.close();
     fout.close();
     return 0;
