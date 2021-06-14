@@ -46,6 +46,10 @@ const float TT[8][8] = { //T的转置
         0.35355, -0.49039, 0.46194, -0.41573, 0.35355, -0.27779, 0.19134, -0.09755
 };
 
+//zcode directions, right, down, leftdown, rightup
+const int deltai = {1, 0, -1, 1};
+const int deltaj = {0, 1, 1, -1};
+
 
 float Y[MAX][MAX];
 float U[MAX][MAX];

@@ -69,9 +69,65 @@ void JPEG_DIVIDE(int r, int c, int width, int height){
     DCT(divideU);
     DCT(divideV);
     //quantization
+    QUANTIZ(divideY,0);
+    QUANTIZ(divideU,1);
+    QUANTIZ(divideV,1);
+
 
 }
 /*****jpeg compression in chunks 8x8*****/
+
+
+/*****quantization*****/
+void QUANTIZ(float matrix[8][8],int yuv){//yuv=0->lumi,yuv=1->chro
+	for(int i = 0;i < 8;i++)
+        for(int j = 1;j < 8 ;j++){
+            if(yuv == 0)
+                matrix[i][j] = matrix[i][j]/DefaultQuantLuminance[i][j];
+            else
+                matrix[i][j] = matrix[i][j]/DefaultQuantChrominance[i][j];
+        }
+    
+}
+
+/*****quantization*****/ 
+
+
+/*****z-encoding*****/
+int[] ZCODE(float matrix[8][8]){
+    int a[64];
+    int i = 0, j = 0, direct = 0;//0-right 1-down 2-rightup 3-leftdown
+    for(int k = 0;k < 64; k++){
+
+        a[k] = matrix[i][j];
+
+        i = i + deltai[direct];
+        j = j + deltaj[direct];
+
+        if(direct == 0&& j == 0)
+            direct = 3;
+        else if(direct == 0&& j == 7)
+            direct = 2;
+        else if(direct == 1&& i == 0)
+            direct = 2;
+        else if(direct == 1&& i == 7)
+            direct = 3;
+        else if(direct == 2&& j == 0)
+            direct = 1;
+        else if(direct == 2&& i == 7)
+            direct = 0;
+        else if(direct == 3&& i == 0)
+            direct = 1;
+        else if(direct == 3&& j == 7)
+            direct = 0;
+
+    }
+}
+/*****z-encoding*****/
+
+
+/*****Huffman*****/
+
 
 
 
