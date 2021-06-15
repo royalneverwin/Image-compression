@@ -1,3 +1,5 @@
 /Users/wangxinhao/CLionProjects/图像压缩/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /Users/wangxinhao/CLionProjects/图像压缩/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/wangxinhao/CLionProjects/图像压缩/cmake-build-debug/CMakeFiles/main.dir
+/Users/wangxinhao/CLionProjects/图像压缩/cmake-build-debug/CMakeFiles/decoding.dir
+/Users/wangxinhao/CLionProjects/图像压缩/cmake-build-debug/CMakeFiles/test.dir
+/Users/wangxinhao/CLionProjects/图像压缩/cmake-build-debug/CMakeFiles/encoding.dir

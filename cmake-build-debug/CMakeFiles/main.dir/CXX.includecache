@@ -6,11 +6,17 @@
 
 #IncludeRegexTransform: 
 
+/Users/wangxinhao/CLionProjects/图像压缩/bmp.h
+
+/Users/wangxinhao/CLionProjects/图像压缩/jpeg.h
+
 /Users/wangxinhao/CLionProjects/图像压缩/main.cpp
 iostream
 -
 fstream
 -
-iomanip
--
+bmp.h
+/Users/wangxinhao/CLionProjects/图像压缩/bmp.h
+jpeg.h
+/Users/wangxinhao/CLionProjects/图像压缩/jpeg.h
 

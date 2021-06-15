@@ -1,8 +1,9 @@
 /********处理bmp图像的有关定义*********/
-typedef unsigned char BYTE; //8位 - 1Byte
-typedef unsigned short WORD; //16位 -2Byte
-typedef unsigned int DWORD; //32位 -4Byte
-typedef unsigned int LONG; //32位 -4Byte
+#pragma pack(1) //注意 pack一定要写在这里！
+typedef unsigned char BYTE;
+typedef unsigned short WORD;
+typedef unsigned int DWORD;
+typedef unsigned int LONG;
 
 
 const int MAX = 3000;
@@ -33,27 +34,29 @@ typedef struct tagBITMAPINFOHEADER{//BMP位图信息头
 } BITMAPINFOHEADER; //该结构占据40个字节
 
 
-//typedef struct tagRGB24 {//32字节
-//    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
-//    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
-//    BYTE rgbRed; // 红色的亮度(值范围为0-255)
-//} RGB24;
-//
-//
-//typedef struct tagRGB32 {//32字节
-//    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
-//    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
-//    BYTE rgbRed; // 红色的亮度(值范围为0-255)
-//    BYTE rgbReserved;// 保留，必须为0，即为Alpha
-//} RGB32;
+typedef struct tagRGB24 {//32字节
+    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
+    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
+    BYTE rgbRed; // 红色的亮度(值范围为0-255)
+} RGB24;
+
+
+typedef struct tagRGB32 {//32字节
+    BYTE rgbBlue;// 蓝色的亮度(值范围为0-255)
+    BYTE rgbGreen; // 绿色的亮度(值范围为0-255)
+    BYTE rgbRed; // 红色的亮度(值范围为0-255)
+    BYTE rgbReserved;// 保留，必须为0，即为Alpha
+} RGB32;
 
 
 
 BITMAPFILEHEADER bmpFileHeader;
 BITMAPINFOHEADER bmpInfoHeader;
+
 BYTE blue[MAX][MAX];
 BYTE red[MAX][MAX];
 BYTE green[MAX][MAX];
+BYTE alpha[MAX][MAX];
 /********处理bmp图像的有关定义*********/
 
 #ifndef 图像压缩_BMP_H

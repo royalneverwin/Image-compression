@@ -130,44 +130,124 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named decoding
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
-.PHONY : main
+decoding: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 decoding
+.PHONY : decoding
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+decoding/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/decoding.dir/build.make CMakeFiles/decoding.dir/build
+.PHONY : decoding/fast
 
-main.o: main.cpp.o
+#=============================================================================
+# Target rules for targets named test
 
-.PHONY : main.o
+# Build rule for target.
+test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
+.PHONY : test
+
+# fast build rule for target.
+test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+#=============================================================================
+# Target rules for targets named encoding
+
+# Build rule for target.
+encoding: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 encoding
+.PHONY : encoding
+
+# fast build rule for target.
+encoding/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/encoding.dir/build.make CMakeFiles/encoding.dir/build
+.PHONY : encoding/fast
+
+compress_decoding.o: compress_decoding.cpp.o
+
+.PHONY : compress_decoding.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.o
-.PHONY : main.cpp.o
+compress_decoding.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/decoding.dir/build.make CMakeFiles/decoding.dir/compress_decoding.cpp.o
+.PHONY : compress_decoding.cpp.o
 
-main.i: main.cpp.i
+compress_decoding.i: compress_decoding.cpp.i
 
-.PHONY : main.i
+.PHONY : compress_decoding.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.i
-.PHONY : main.cpp.i
+compress_decoding.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/decoding.dir/build.make CMakeFiles/decoding.dir/compress_decoding.cpp.i
+.PHONY : compress_decoding.cpp.i
 
-main.s: main.cpp.s
+compress_decoding.s: compress_decoding.cpp.s
 
-.PHONY : main.s
+.PHONY : compress_decoding.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
-.PHONY : main.cpp.s
+compress_decoding.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/decoding.dir/build.make CMakeFiles/decoding.dir/compress_decoding.cpp.s
+.PHONY : compress_decoding.cpp.s
+
+compress_encoding.o: compress_encoding.cpp.o
+
+.PHONY : compress_encoding.o
+
+# target to build an object file
+compress_encoding.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/encoding.dir/build.make CMakeFiles/encoding.dir/compress_encoding.cpp.o
+.PHONY : compress_encoding.cpp.o
+
+compress_encoding.i: compress_encoding.cpp.i
+
+.PHONY : compress_encoding.i
+
+# target to preprocess a source file
+compress_encoding.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/encoding.dir/build.make CMakeFiles/encoding.dir/compress_encoding.cpp.i
+.PHONY : compress_encoding.cpp.i
+
+compress_encoding.s: compress_encoding.cpp.s
+
+.PHONY : compress_encoding.s
+
+# target to generate assembly for a file
+compress_encoding.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/encoding.dir/build.make CMakeFiles/encoding.dir/compress_encoding.cpp.s
+.PHONY : compress_encoding.cpp.s
+
+test.o: test.cpp.o
+
+.PHONY : test.o
+
+# target to build an object file
+test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.o
+.PHONY : test.cpp.o
+
+test.i: test.cpp.i
+
+.PHONY : test.i
+
+# target to preprocess a source file
+test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.i
+.PHONY : test.cpp.i
+
+test.s: test.cpp.s
+
+.PHONY : test.s
+
+# target to generate assembly for a file
+test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
+.PHONY : test.cpp.s
 
 # Help Target
 help:
@@ -177,10 +257,18 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... main"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... decoding"
+	@echo "... encoding"
+	@echo "... test"
+	@echo "... compress_decoding.o"
+	@echo "... compress_decoding.i"
+	@echo "... compress_decoding.s"
+	@echo "... compress_encoding.o"
+	@echo "... compress_encoding.i"
+	@echo "... compress_encoding.s"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 

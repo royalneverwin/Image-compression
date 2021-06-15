@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/wangxinhao/CLionProjects/图像压缩/test.cpp
+iostream
+-
+fstream
+-
+iomanip
+-
+cmath
+-
+

@@ -1,4 +1,11 @@
 /********jpeg算法的有关定义*********/
+
+//YUV
+float Y[MAX][MAX];
+float U[MAX][MAX];
+float V[MAX][MAX];
+
+
 // quantization tables from JPEG Standard, Annex K
 const BYTE DefaultQuantLuminance[8][8] = {
         {16, 11, 10, 16, 24,  40,  51,  61},
@@ -46,14 +53,29 @@ const float TT[8][8] = { //T的转置
         0.35355, -0.49039, 0.46194, -0.41573, 0.35355, -0.27779, 0.19134, -0.09755
 };
 
-//zcode directions, right, down, leftdown, rightup
-const int deltai = {1, 0, -1, 1};
-const int deltaj = {0, 1, 1, -1};
+
+//z-code auxiliary matrix, ZCodeMatrix[ZCode[i]] = i;
+const BYTE ZCodeMatrix[8*8] =
+        {  0, 1, 8,16, 9, 2, 3,10,    // ZCode[] =  0, 1, 5, 6,14,15,27,28,
+           17,24,32,25,18,11, 4, 5,   //             2, 4, 7,13,16,26,29,42,
+           12,19,26,33,40,48,41,34,   //             3, 8,12,17,25,30,41,43,
+           27,20,13, 6, 7,14,21,28,   //             9,11,18,24,31,40,44,53,
+           35,42,49,56,57,50,43,36,   //            10,19,23,32,39,45,52,54,
+           29,22,15,23,30,37,44,51,   //            20,22,33,38,46,51,55,60,
+           58,59,52,45,38,31,39,46,   //            21,34,37,47,50,56,59,61,
+           53,60,61,54,47,55,62,63    //            35,36,48,49,57,58,62,63
+        };
 
 
-float Y[MAX][MAX];
-float U[MAX][MAX];
-float V[MAX][MAX];
+//RLE encoding
+struct RLECode{
+    int preZero;
+    int cur;
+    RLECode(int p, int c):preZero(p), cur(c){}
+    RLECode():preZero(0), cur(0){}
+};
+const struct RLECode EOB = RLECode(-1, -1);
+
 
 /********jpeg算法的有关定义*********/
 
