@@ -6,13 +6,25 @@
 
 #IncludeRegexTransform: 
 
+/Users/wangxinhao/CLionProjects/图像压缩/bmp.h
+
+/Users/wangxinhao/CLionProjects/图像压缩/jpeg.h
+
 /Users/wangxinhao/CLionProjects/图像压缩/test.cpp
 iostream
 -
 fstream
 -
-iomanip
--
 cmath
+-
+bmp.h
+/Users/wangxinhao/CLionProjects/图像压缩/bmp.h
+jpeg.h
+/Users/wangxinhao/CLionProjects/图像压缩/jpeg.h
+string
+-
+map
+-
+iomanip
 -
 

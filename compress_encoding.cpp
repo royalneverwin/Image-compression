@@ -7,6 +7,13 @@
 #include <map>
 using namespace std;
 
+const double eps = 1e-6;
+
+int Round(double x) {
+    if(x > eps) return round(x);
+    return floor(x+0.5);
+}
+
 
 /*****convert from RGB to YUV*****/
 float rgb2y (float r, float g, float b){
@@ -55,7 +62,7 @@ void QUANTIZ(float matrix[8][8], int yuv, int ans[8][8]){//yuv=0->lumi,yuv=1->ch
                 matrix[i][j] = matrix[i][j] / DefaultQuantLuminance[i][j];
             else
                 matrix[i][j] = matrix[i][j] / DefaultQuantChrominance[i][j];
-            ans[i][j] = nearbyint(matrix[i][j]); //ans[i][j] = int(matrix[i][j] + matrix[i][j] >= 0? + 0.5f: -0.5f);
+            ans[i][j] = Round(matrix[i][j]); //ans[i][j] = int(matrix[i][j] + matrix[i][j] >= 0? + 0.5f: -0.5f);
 //            cout << matrix[i][j] << ' ' << ans[i][j] << endl;
         }
     }
@@ -135,73 +142,47 @@ int getLength(int num) { //change function, return value == length of num's Bina
     return cnt;
 }
 
-string Short2Binary(short num){ //string：left is max
+string Short2Binary(short num){ //string：left is max, num must be positive
     char ans[17];
     int index = 0;
-    bool ifminus = false;
-    if(num < 0){
-        ifminus = true;
-        num = short(-1) * num;
-    }
     while(num != 0){
         ans[index] = (num % 2) + '0';
         index++;
         num /= 2;
     }
-    while(index != 17){
-        ans[index] = '0';
-        index++;
-    }
-    if(ifminus){ //按位取反，末位+1
-        for(int i = 0; i < 16; i++){
-            if(ans[i] == '1')
-                ans[i] = '0';
-            else
-                ans[i] = '1';
-        }
-        for(int i = 0; i < 16; i++){
-            if(ans[i] == '1')
-                ans[i] = '0';
-            else {
-                ans[i] = '1';
-                break;
-            }
-
-        }
-    }
     char rotateAns[17];
-    for(int i = 0; i < 16; i++){
-        rotateAns[i] = ans[15-i];
+    for(int i = 0; i < index; i++){
+        rotateAns[i] = ans[index-1-i];
     }
     rotateAns[index] = '\0';
     string ret = rotateAns;
     return ret;
 }
 
-short Binary2Short(string num){ //string：left is max
-    if(num[15] == 1){ //是负数，-1后按位取反
-        for(int i = 15; i >= 0; i--){
-            if(num[i] == '0')
-                num[i] = '1';
-            else{
-                num[i] = '0';
-                break;
-            }
-        }
-        for(int i = 0; i < 16; i++){
-            if(num[i] == '0')
-                num[i] = '1';
-            else
-                num[i] = '0';
-        }
-    }
-    short ans = 0;
-    for(int i = 0; i < 16; i++){
-        ans *= 2;
-        ans += num[i] - '0';
-    }
-    return ans;
-}
+//short Binary2Short(string num){ //string：left is max
+//    if(num[15] == 1){ //是负数，-1后按位取反
+//        for(int i = 15; i >= 0; i--){
+//            if(num[i] == '0')
+//                num[i] = '1';
+//            else{
+//                num[i] = '0';
+//                break;
+//            }
+//        }
+//        for(int i = 0; i < 16; i++){
+//            if(num[i] == '0')
+//                num[i] = '1';
+//            else
+//                num[i] = '0';
+//        }
+//    }
+//    short ans = 0;
+//    for(int i = 0; i < 16; i++){
+//        ans *= 2;
+//        ans += num[i] - '0';
+//    }
+//    return ans;
+//}
 
 string getCode(short num) { //get second Huffman code
     if(num == 0)return "";
@@ -298,7 +279,6 @@ void LumiHuffman(int rleCnt, RLECode rleCode[], ofstream& fout){
         if(ans[i] == '1')
             ans2c[index] |= (1 << changePos);
     }
-    cout << ansLength << endl;
     fout.write(ans2c, (ansLength + 7) / 8);
 }
 /***Luminance Huffman***/
@@ -357,7 +337,6 @@ void ChroHuffman(int rleCnt, RLECode rleCode[], ofstream& fout){
         if(ans[i] == '1')
             ans2c[index] |= (1 << changePos);
     }
-    cout << ansLength << endl;
     fout.write(ans2c, (ansLength + 7) / 8);
 }
 /***Chrominance Huffman***/
@@ -566,7 +545,6 @@ int main(int argc, char *argv[]){//2 file names in the command line input, compr
 #endif
     //jpeg compressor
     MyJPEG(width, height, fout);
-
     fin.close();
     fout.close();
     return 0;

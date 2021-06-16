@@ -57,6 +57,9 @@ BYTE blue[MAX][MAX];
 BYTE red[MAX][MAX];
 BYTE green[MAX][MAX];
 BYTE alpha[MAX][MAX];
+
+RGB24 bmp24[MAX][MAX];
+RGB32 bmp32[MAX][MAX];
 /********处理bmp图像的有关定义*********/
 
 #ifndef 图像压缩_BMP_H
