@@ -3,6 +3,6 @@
 - encoding为压缩
 - decoding为解压
 - 效果预览： 
-  - 743KB -> 51KB 24.bmp
-  - 4.2MB -> 1.2MB 32.bmp
-  - 2.5MB -> 86KB 24.bmp
+  - 743KB -> 51KB   24.bmp
+  - 4.2MB -> 1.2MB   32.bmp
+  - 2.5MB -> 86KB   1.bmp
