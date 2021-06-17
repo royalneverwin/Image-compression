@@ -143,6 +143,19 @@ decoding/fast:
 .PHONY : decoding/fast
 
 #=============================================================================
+# Target rules for targets named judge
+
+# Build rule for target.
+judge: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 judge
+.PHONY : judge
+
+# fast build rule for target.
+judge/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/judge.dir/build.make CMakeFiles/judge.dir/build
+.PHONY : judge/fast
+
+#=============================================================================
 # Target rules for targets named test
 
 # Build rule for target.
@@ -222,6 +235,33 @@ compress_encoding.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/encoding.dir/build.make CMakeFiles/encoding.dir/compress_encoding.cpp.s
 .PHONY : compress_encoding.cpp.s
 
+judgeResult.o: judgeResult.cpp.o
+
+.PHONY : judgeResult.o
+
+# target to build an object file
+judgeResult.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/judge.dir/build.make CMakeFiles/judge.dir/judgeResult.cpp.o
+.PHONY : judgeResult.cpp.o
+
+judgeResult.i: judgeResult.cpp.i
+
+.PHONY : judgeResult.i
+
+# target to preprocess a source file
+judgeResult.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/judge.dir/build.make CMakeFiles/judge.dir/judgeResult.cpp.i
+.PHONY : judgeResult.cpp.i
+
+judgeResult.s: judgeResult.cpp.s
+
+.PHONY : judgeResult.s
+
+# target to generate assembly for a file
+judgeResult.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/judge.dir/build.make CMakeFiles/judge.dir/judgeResult.cpp.s
+.PHONY : judgeResult.cpp.s
+
 test.o: test.cpp.o
 
 .PHONY : test.o
@@ -259,6 +299,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... decoding"
 	@echo "... encoding"
+	@echo "... judge"
 	@echo "... test"
 	@echo "... compress_decoding.o"
 	@echo "... compress_decoding.i"
@@ -266,6 +307,9 @@ help:
 	@echo "... compress_encoding.o"
 	@echo "... compress_encoding.i"
 	@echo "... compress_encoding.s"
+	@echo "... judgeResult.o"
+	@echo "... judgeResult.i"
+	@echo "... judgeResult.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

@@ -5,6 +5,7 @@
 #include "jpeg.h"
 #include <string>
 #include <map>
+#include <ctime>
 using namespace std;
 
 const double eps = 1e-6;
@@ -470,16 +471,16 @@ int main(int argc, char *argv[]){//2 file names in the command line input, compr
     ifstream fin(argv[1],ios::in|ios::binary);
     ofstream fout(argv[2], ios::out | ios::binary);
     int count = 0;
-    int ifInterval = 0;//在两个Header和数据之间可能还有一些无关数据, 要都记录并且平移
+    int ifInterval = 0;//there may be some irrelevant data between the two Headers and the data, which must be recorded and translated
     char *interval;
     int intervalCnt;
     int width;
     int height;
-    if(!fin.is_open()){//若打开文件错误, 则输出错误
+    if(!fin.is_open()){//if there is an error in opening the file, an error will be output
         cerr << "Error in opening files" << endl;
         exit(1);
     }
-    fin.read((char *)&bmpFileHeader, sizeof(bmpFileHeader));//read的首项必须是char *
+    fin.read((char *)&bmpFileHeader, sizeof(bmpFileHeader));//must give read "char *"
     fin.read((char *)&bmpInfoHeader, sizeof(bmpInfoHeader));
     count = count + sizeof(bmpFileHeader) + sizeof(bmpInfoHeader);
     width = bmpInfoHeader.biWidth;
@@ -534,7 +535,8 @@ int main(int argc, char *argv[]){//2 file names in the command line input, compr
         }
     }
     else{ //24 and 32 bits are true colors, just read the color directly, the other formats will have a palette that will index the corresponding colors, which will be more complicated
-
+        cerr << "not 24/32 " << endl;
+        exit(3);
     }
 #ifdef DEBUG
     for(int i = 0; i < height; i++){
@@ -547,5 +549,6 @@ int main(int argc, char *argv[]){//2 file names in the command line input, compr
     MyJPEG(width, height, fout);
     fin.close();
     fout.close();
+    cout << "The run time is " << clock() / 1000 << "ms" << endl;
     return 0;
 }
