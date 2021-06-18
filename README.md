@@ -19,7 +19,7 @@
 
   rgb空间转化成yuv空间
 
-  ![image-20210618153226628](/Users/wangxinhao/Library/Application Support/typora-user-images/image-20210618153226628.png)
+  
 
 - 离散余弦变换（DCT）
 
