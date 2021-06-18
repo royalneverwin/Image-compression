@@ -276,28 +276,95 @@
 - 1.bmp：
 
   - 原图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/1.bmp)
+
   - 压缩时间：
+
+  ![1encoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/1encoding.jpg?raw=true)
+
   - 压缩前后大小：
+
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/1size.jpg?raw=true" alt="1size.jpg" style="zoom:50%;" />
+
   - 解码时间：
+
+  ![1decoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/1decoding.jpg?raw=true)
+
   - 解码后的图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/my1.bmp)
+
   - PSNR和SSIM评价：
+
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/1judge.jpg?raw=true" alt="1judge.jpg" style="zoom:50%;" />
 
 - 32.bmp：
+
   - 原图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/32.bmp)
+
   - 压缩时间：
+
+  ![32encoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/32encoding.jpg?raw=true)
+
   - 压缩前后大小：
+
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/32size.jpg?raw=true" alt="32size.jpg" style="zoom:50%;" />
+
   - 解码时间：
+
+  ![32decoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/32decoding.jpg?raw=true)
+
   - 解码后的图片：
-  - PSNR和SSIM评价：
-- other.bmp：
-  - 原图片：
-  - 压缩时间：
-  - 压缩前后大小：
-  - 解码时间：
-  - 解码后的图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/my32.bmp)
+
   - PSNR和SSIM评价：
 
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/32judge.jpg?raw=true" alt="32judge.jpg" style="zoom:50%;" />
+
+- other.bmp：
+
+  - 原图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/other.bmp)
+
+  - 压缩时间：
+
+  ![otherencoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/otherencoding.jpg?raw=true)
+
+  - 压缩前后大小：
+
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/othersize.jpg?raw=true" alt="othersize.jpg" style="zoom:50%;" />
+
+  - 解码时间：
+
+  ![otherdecoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/otherdecoding.jpg?raw=true)
+
+  - 解码后的图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/myother.bmp)
+
+  - PSNR和SSIM评价：
+
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/otherjudge.jpg?raw=true" alt="otherjudge.jpg" style="zoom:50%;" />
+
+
+
+
+
 ### 7. 不足和展望：
+
+- 目前只实现了bmp图像的24位和32位jpeg转化。但实际上本project实现的事对颜色表的jpeg压缩，也就是说，只要能得到一个图片的颜色表，就能使用本project里的算法，只是目前只实现了读取bmp24位、32位图片里的颜色表的操作。
+- 目前只使用了推荐的默认量化表，以后可以通过增加量化表的数量，加入更多图片质量选项，或者测试不同量化表的表现
+- 程序性能（上限、速度、压缩率）可能仍需改进
+- 未来也可以制作一个更友好易用的GUI
+- 收获和感悟：
+  - 应用并熟悉了包括RLE、Huffman算法等压缩算法，以及其他的一些程序模块
+  - 增进了一些处理具体问题的算法设计技巧和分析能力
+  - 更好地理解了我们现在仍在使用的计算机系统的基础技术，我们赖以使用的计算机系统是站在“巨人的肩膀”之上的
 
 
 
