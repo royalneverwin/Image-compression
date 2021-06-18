@@ -246,9 +246,56 @@
 ##### (2) 具体BMP图片实例
 
 - 一共4张bmp图片
-- 
 
+- 24.bmp：
 
+  - 原图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/24.bmp)
+
+  - 压缩时间：
+
+  ![24encoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/24encoding.jpg?raw=true)
+
+  - 压缩前后大小：
+
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/24size.jpg?raw=true" alt="24size.jpg" style="zoom:50%;" />
+
+  - 解码时间：
+
+  ![24decoding.jpg](https://github.com/royalneverwin/Image-compression/blob/main/README%20images/24decoding.jpg?raw=true)
+
+  - 解码后的图片：
+
+  ![img](https://raw.githubusercontent.com/royalneverwin/Image-compression/main/README%20images/my24.bmp)
+
+  - PSNR和SSIM评价：
+
+  <img src="https://github.com/royalneverwin/Image-compression/blob/main/README%20images/24judge.jpg?raw=true" alt="24judge.jpg" style="zoom:50%;" />
+
+- 1.bmp：
+
+  - 原图片：
+  - 压缩时间：
+  - 压缩前后大小：
+  - 解码时间：
+  - 解码后的图片：
+  - PSNR和SSIM评价：
+
+- 32.bmp：
+  - 原图片：
+  - 压缩时间：
+  - 压缩前后大小：
+  - 解码时间：
+  - 解码后的图片：
+  - PSNR和SSIM评价：
+- other.bmp：
+  - 原图片：
+  - 压缩时间：
+  - 压缩前后大小：
+  - 解码时间：
+  - 解码后的图片：
+  - PSNR和SSIM评价：
 
 ### 7. 不足和展望：
 
